@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  width: 16vw;
+  height: 4vh;
+}
+
+.button {
+  text-align: center;
+  width: 50%;
+  height: 100%;
+  border: 1px solid #bfc2c4;
+  background-color: #fcfcfc;
+  color: #4e6172;
+  cursor: pointer;
+}
+
+.button:first-child {
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+}
+
+.button:last-child {
+  border-radius: 0 5px 5px 0;
+  border-left: none;
+}
+
+.active:first-child  {
+  border: 1px solid #a1a9b3;
+  background-color: #e8edf6;
+  color: #3875cc;
+}
+
+.active:last-child  {
+  border: 1px solid #a1a9b3;
+  background-color: #e8edf6;
+  color: #3875cc;
+}

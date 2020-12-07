@@ -1,0 +1,12 @@
+.container {
+  width: 80%;
+}
+
+.input {
+  border-radius: 5px;
+  border: 1px solid #bfc2c4;
+  height: 3.8vh;
+  width: -webkit-fill-available;
+  padding: 0 30px;
+  color: #4e6172;
+}

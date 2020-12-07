@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #dbe1e6;
+  padding: 15px 30px;
+}
+
+td {
+  color: #4e6172;
+  font-size: small;
+}
+
+td:nth-child(1) {
+  width: 6%;
+}
+
+td:nth-child(2) {
+  width: 10%;
+  text-transform: uppercase;
+}
+
+td:nth-child(3) {
+  width: 55%;
+  font-weight: 500;
+}
+
+td:nth-child(4) {
+  width: 30%;
+  text-align: right;
+}
