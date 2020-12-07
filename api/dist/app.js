@@ -4,10 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Dependencies
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
-
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _lodash = require('lodash');
 
@@ -29,33 +26,28 @@ var _winston = require('winston');
 
 var _winston2 = _interopRequireDefault(_winston);
 
+var _ioredis = require('ioredis');
+
+var _ioredis2 = _interopRequireDefault(_ioredis);
+
+var _constants = require('./constants');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/**
- * Socket server integrated with redis stream
- */
 var App = function () {
   function App() {
     _classCallCheck(this, App);
   }
 
   _createClass(App, [{
-    key: 'configure',
-
-
-    /**
-     * Wire up dependencies and initial state
-     * @param {*} redis IORedis instance
-     * @param {*} throttleWait Time between event emissions (ms)
-     */
-    value: function configure(redis, throttleWait) {
+    key: 'init',
+    value: function init() {
       this.expressApp = (0, _express2.default)();
       this.httpServer = _http2.default.Server(this.expressApp);
       this.io = (0, _socket2.default)(this.httpServer);
-      this.redis = redis;
-      this.throttleWait = throttleWait;
+      this.redis = new _ioredis2.default();
 
       this.activeSockets = [];
       this.pendingEvents = [];
@@ -67,11 +59,6 @@ var App = function () {
       this.handleMessages();
       this.handleError();
     }
-
-    /**
-     * Logger
-     */
-
   }, {
     key: 'createLogger',
     value: function createLogger() {
@@ -84,11 +71,6 @@ var App = function () {
         })]
       });
     }
-
-    /**
-     * Keep list of active sockets
-     */
-
   }, {
     key: 'handleSockets',
     value: function handleSockets() {
@@ -104,11 +86,6 @@ var App = function () {
         });
       });
     }
-
-    /**
-     * Subscribe to events stream
-     */
-
   }, {
     key: 'subscribeToEvents',
     value: function subscribeToEvents() {
@@ -125,11 +102,6 @@ var App = function () {
         }
       });
     }
-
-    /**
-     * Create throttler for event emissions
-     */
-
   }, {
     key: 'createThrottler',
     value: function createThrottler() {
@@ -147,13 +119,8 @@ var App = function () {
         });
 
         _this3.pendingEvents.splice(0, _this3.pendingEvents.length);
-      }, this.throttleWait);
+      }, _constants.THROTTLE_WAIT);
     }
-
-    /**
-     * Keep clients updated with events
-     */
-
   }, {
     key: 'handleMessages',
     value: function handleMessages() {
@@ -169,11 +136,6 @@ var App = function () {
         _this4.pendingEvents.unshift(JSON.parse(message));
       });
     }
-
-    /**
-     * Keep clients updated with errors
-     */
-
   }, {
     key: 'handleError',
     value: function handleError() {
@@ -187,12 +149,6 @@ var App = function () {
         });
       });
     }
-
-    /**
-     * Run the server at the specified port
-     * @param {*} port Server port
-     */
-
   }, {
     key: 'run',
     value: function run(port) {
@@ -203,10 +159,5 @@ var App = function () {
 
   return App;
 }();
-
-/**
- * Export module
- */
-
 
 exports.default = App;
